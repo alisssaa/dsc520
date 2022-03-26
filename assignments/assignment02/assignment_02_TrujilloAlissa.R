@@ -30,7 +30,6 @@ scores_df <- read.csv("data/scores.csv")
 summary(scores_df)
 
 ## Load the `readxl` library
-install.packages("readxl")
 library(readxl)
 
 ## Using the excel_sheets() function from the `readxl` package,
@@ -59,8 +58,6 @@ colnames(voter_turnout_df2) <- c("ward_precint", "ballots_cast", "registered_vot
 str(voter_turnout_df2)
 
 ## Load the `DBI` library
-install.packages("DBI")
-install.packages("RSQLite")
 library("RSQLite")
 library("DBI")
 
