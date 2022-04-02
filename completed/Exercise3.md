@@ -54,3 +54,30 @@ censusHistogramNormalDist < - censusHistogramScaled + stat_function(fun = dnorm,
 
 ![censusHistogramNormalDist](https://user-images.githubusercontent.com/95236375/161367589-3b651744-0bed-4bfa-953c-450c6e3b9372.jpg)
  7. The normal distribution is not an accurate representation for this model due to the nature of the high school completion data. The peak is roughly at 90% which would require, in order to be symmetrical, a tail that extended far past the 100% limit. There is no way for a county to have more than 100% of high school degree completion, so the distribution hits a wall there. The peak is also much higher than would be predicted by a normal distribution.
+
+v.
+
+```
+probabilityPlot <- ggplot(censusData, aes(sample = HSDegree)) + stat_qq_point(size = 1) + 
+  stat_qq_line(color="violet") + ggtitle("Comparison Between HS Degree Measurement
+  Distribution And the Normal Distribution") + xlab("") + ylab("")
+```
+
+![ProbabilityPlot](https://user-images.githubusercontent.com/95236375/161396402-7c0a7007-25e6-4728-a932-f35d0fe6164e.jpg)
+
+vi. 
+1. The distribution is not approximately normal. The purple line shows the plot of a normal distribution using the HS Degree data, while the black plot points show the actual distribution. The curve does not follow the line particularly well.
+2. The distrubution has a significant left-skew, evidenced by the curve of the line on the probability plot opening downwards. This indicates that the data has a very long tail to the left, which is true due to the HSDegree variable peaking around 90%.
+
+vii. 
+```
+stat.desc(censusData$HSDegree)
+```
+```
+     nbr.val     nbr.null       nbr.na          min          max        range 
+1.360000e+02 0.000000e+00 0.000000e+00 6.220000e+01 9.550000e+01 3.330000e+01 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+1.191800e+04 8.870000e+01 8.763235e+01 4.388598e-01 8.679296e-01 2.619332e+01 
+     std.dev     coef.var 
+5.117941e+00 5.840241e-02 
+```
