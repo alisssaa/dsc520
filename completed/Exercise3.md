@@ -32,7 +32,8 @@ iii.
 censusData <- read.csv("data/acs-14-1yr-s0201.csv", header = TRUE)
 ```
 ```
-censusHistogram <- ggplot(censusData, aes(HSDegree)) + geom_histogram(bins = 100) + xlab("% of Adults With High School Degree Per County") + ylab("Number of Counties With Given Percentage of HS Completion")
+censusHistogram <- ggplot(censusData, aes(HSDegree)) + geom_histogram(bins = 100) +   
+xlab("% of Adults With High School Degree Per County") + ylab("Number of Counties With Given Percentage of HS Completion")
 ```
 
 ![censusHistogram](https://user-images.githubusercontent.com/95236375/161357925-a9e6c7c0-001f-4d82-9374-b65571489776.jpg)
@@ -46,10 +47,14 @@ iv.
 5. Yes, the distribution is skewed negatively. The tail to the left is much longer due to the fact that the peak is around 90% and there is no possibility of any county having higher than a 100% degree completion.
 6. 
 ```
-censusHistogramScaled <- ggplot(censusData, aes(HSDegree)) + geom_histogram(bins = 100, aes(y=..density..)) + ggtitle("Rates of High School Completion Per County") + xlab("% of Adults With High School Degree") + ylab("Percentage of Counties With \n Given Percentage of HS Completion")
+censusHistogramScaled <- ggplot(censusData, aes(HSDegree)) + geom_histogram(bins = 100, aes(y=..density..)) +   
+ggtitle("Rates of High School Completion Per County") + xlab("% of Adults With High School Degree") + 
+ylab("Percentage of Counties With \n Given Percentage of HS Completion")
 ```
 ```
-censusHistogramNormalDist < - censusHistogramScaled + stat_function(fun = dnorm, args = list(mean = mean(censusData$HSDegree, na.rm = TRUE), sd = sd(censusData$HSDegree, na.rm = TRUE)), colour = "black", size = 1)
+censusHistogramNormalDist < - censusHistogramScaled + stat_function(fun = dnorm, args =   
+list(mean = mean(censusData$HSDegree, na.rm = TRUE), sd = sd(censusData$HSDegree, na.rm = TRUE)),   
+colour = "black", size = 1)
 ```
 
 ![censusHistogramNormalDist](https://user-images.githubusercontent.com/95236375/161367589-3b651744-0bed-4bfa-953c-450c6e3b9372.jpg)
