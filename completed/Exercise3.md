@@ -51,3 +51,6 @@ censusHistogramScaled <- ggplot(censusData, aes(HSDegree)) + geom_histogram(bins
 ```
 censusHistogramNormalDist < - censusHistogramScaled + stat_function(fun = dnorm, args = list(mean = mean(censusData$HSDegree, na.rm = TRUE), sd = sd(censusData$HSDegree, na.rm = TRUE)), colour = "black", size = 1)
 ```
+
+![censusHistogramNormalDist](https://user-images.githubusercontent.com/95236375/161367589-3b651744-0bed-4bfa-953c-450c6e3b9372.jpg)
+ 7. The normal distribution is not an accurate representation for this model due to the nature of the high school completion data. The peak is roughly at 90% which would require, in order to be symmetrical, a tail that extended far past the 100% limit. There is no way for a county to have more than 100% of high school degree completion, so the distribution hits a wall there. The peak is also much higher than would be predicted by a normal distribution.
