@@ -86,3 +86,7 @@ stat.desc(censusData$HSDegree)
      std.dev     coef.var 
        5.118        0.058 
 ```
+
+viii.  
+The mean is lower than the median by 1.068, indicating that our distribution has a negative skew. This is true, looking at the graph, we can see that the left tail is significantly longer than the right. The minimum point on the graph, 62.2 is 25.43 percentage points lower than the mean, 87.632. This minimum point has a z-score of -4.97, meaning that it is 4.97 standard deviations below the mean. This demonstrates that the distribtion has very high kurtosis on the left side. The kurtosis is dramatically lower on the right side, with the maximum point, 95.5, only having a z-score of 1.53, meaning it is 1.53 standard deviations above the mean. This is due to the maximum percentage being 100% and the fact that achieving 100% High School Degree completion in a county would be incredibly difficult.  
+Adding more samples to the data, we should see that the distribution smooths out, so that the peak is not as high above the standard normal distribution. However, it would not address the issue with the large negative skew and high kurtosis, due to 100% still being the highest achievable score, and the prevalence of most counties continuing to fall around 80-90%, assuming that this sample represents the population relatively accurately. Since this sample that we are looking at includes a good variety of counties from states with various education levels, it seems to be a well-rounded sample representative of the population.
