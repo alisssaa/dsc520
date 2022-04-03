@@ -40,7 +40,7 @@ xlab("% of Adults With High School Degree Per County") + ylab("Number of Countie
 
  
 iv.	    
-1. Yes, the distribution is unimodal. There is one distinct peak around 90% high school       completion.  
+1. Yes, the distribution is unimodal. There is one distinct peak around 90% high school completion.  
 2.  It is not approximately symmetrical. The tail is much longer on the left hand side, meaning it has negative skew.  
 3. It has a general bell shape centered around the 90% mark, however, the left tail is much longer.  
 4. It is not approximately normal, due to the skew mentioned earlier.
