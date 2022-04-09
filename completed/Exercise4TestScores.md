@@ -1,6 +1,6 @@
 Exercise 4: Test Scores  
   
-1. The observational units in this study are the students in the two difference sections.  
+1. The observational units in this study are the students in the two different sections.  
 2. The variables are:
     - The type of section, regular or sports focused (categorical)
     - Course grades (categorical)
@@ -26,11 +26,32 @@ b. It is not true that every student in the regular section did better than ever
   
 c. An additional variable that could be confounding the results is that there could be a difference in the type of students that chose the sports-related section rather than the regular version of the course. Since the students chose their own section, the samples were not random which could have influenced the results. It is possible that the type of student who would choose a sports-related section might have a different work ethic or have different priorities than a student who would choose the regular section.  
   
-Data Transformations based on Housing dataset  
+Data Transformations 
   
-a. <hold>  
+a. I will be utilizing this alcohol consumption dataset which denotes the number of servings of beer, spirits, and wine consumed by the average individual in each country in the year 2010.  
+```
+            country beer_servings spirit_servings wine_servings total_litres_of_pure_alcohol
+1       Afghanistan             0               0             0                          0.0
+2           Albania            89             132            54                          4.9
+3           Algeria            25               0            14                          0.7
+4           Andorra           245             138           312                         12.4
+5            Angola           217              57            45                          5.9
+6 Antigua & Barbuda           102             128            45                          4.9
+```
+I used the apply function in order to see what the average servings of alcohol were per person globally. This involed finding the mean of all of the surveyed countries.  
+```
+apply(alcoholConsumption[2:5], 2, mean)
+```
+This produced these results:  
+```
+               beer_servings              spirit_servings                wine_servings 
+                  106.160622                    80.994819                    49.450777 
+total_litres_of_pure_alcohol 
+                    4.717098 
+```
+This output shows that the global average of beer servings is 106, the average number of spirit servings is 81, the average number of wine servings is 49, and the total average litres consumed per person is 4.7.  
   
-b. Used the aggregate variable on the sale price of homes and the average sale price, resulting in output that shows the average sale price for each zip code:
+b. I used the aggregate variable on the housing data provided. I specifically applied it to the sale price of homes and the average sale price, resulting in output that shows the average sale price for each zip code:
 ```
 aggregate(sale_price ~ zip5, housing_df, mean)
 ```  
@@ -42,3 +63,19 @@ Which provides the output:
 3 98059     645000
 4 98074     951544
 ```  
+  
+c. I used ddplyr to analyze the alcohol consumption dataset, adding a new variable to see whether a country preferred wine over beer. I called this new variable "prefer_wine".
+```
+prefer_wine <- ddply(alcoholConsumption, c("country"), summarise, prefer_wine = 
+                  wine_servings > beer_servings)
+```
+This produced the following output including the new variable I have added:
+```
+            country prefer_wine
+1       Afghanistan       FALSE
+2           Albania       FALSE
+3           Algeria       FALSE
+4           Andorra        TRUE
+5            Angola       FALSE
+6 Antigua & Barbuda       FALSE
+```
