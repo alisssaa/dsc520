@@ -4,8 +4,49 @@ https://github.com/fivethirtyeight/data/blob/master/college-majors/recent-grads.
 a. dplyr Operations  
   
 **group_by**  
-The data set includes the median salary for each major listed. I used the group_by function 
-to find the median salary of each major category (engineering, arts, etc.)  
+This data set demonstrates data for many individual majors, but each major is also classified in a more broad "major group" (engineering, arts, etc.) I used the group_by function to group the data by the major category.  
+```
+recentgrads_df %>% group_by(Major_category)
+```
+```
+# Groups:   Major_category [16]
+    Rank Major_code Major    Total   Men Women Major_category ShareWomen Sample_size
+   <int>      <int> <chr>    <int> <int> <int> <chr>               <dbl>       <int>
+ 1     1       2419 PETROLE…  2339  2057   282 Engineering         0.121          36
+ 2     2       2416 MINING …   756   679    77 Engineering         0.102           7
+ 3     3       2415 METALLU…   856   725   131 Engineering         0.153           3
+ 4     4       2417 NAVAL A…  1258  1123   135 Engineering         0.107          16
+ 5     5       2405 CHEMICA… 32260 21239 11021 Engineering         0.342         289
+ 6     6       2418 NUCLEAR…  2573  2200   373 Engineering         0.145          17
+ 7     7       6202 ACTUARI…  3777  2110  1667 Business            0.441          51
+ 8     8       5001 ASTRONO…  1792   832   960 Physical Scie…      0.536          10
+ 9     9       2414 MECHANI… 91227 80320 10907 Engineering         0.120        1029
+10    10       2408 ELECTRI… 81527 65511 16016 Engineering         0.196         631
+```  
+  
+**arrange**  
+Now that our data is grouped, we can arrange it based on our Major Category groups.  
+```
+recentgrads_df %>% group_by(Major_category) %>% arrange(Major_category)
+```
+```
+# Groups:   Major_category [16]
+    Rank Major_code Major    Total   Men Women Major_category ShareWomen Sample_size
+   <int>      <int> <chr>    <int> <int> <int> <chr>               <dbl>       <int>
+ 1    22       1104 FOOD SC…    NA    NA    NA Agriculture &…     NA              36
+ 2    64       1101 AGRICUL… 14240  9658  4582 Agriculture &…      0.322         273
+ 3    65       1100 GENERAL… 10399  6053  4346 Agriculture &…      0.418         158
+ 4    72       1102 AGRICUL…  2439  1749   690 Agriculture &…      0.283          44
+ 5   108       1303 NATURAL… 13773  8617  5156 Agriculture &…      0.374         152
+ 6   112       1302 FORESTRY  3607  3156   451 Agriculture &…      0.125          48
+ 7   113       1106 SOIL SC…   685   476   209 Agriculture &…      0.305           4
+ 8   144       1105 PLANT S…  7416  4897  2519 Agriculture &…      0.340         110
+ 9   153       1103 ANIMAL … 21573  5347 16226 Agriculture &…      0.752         255
+10   162       1199 MISCELL…  1488   404  1084 Agriculture &…      0.728          24
+```  
+
+**summarize**
+By combining the group_by and summarize functions, we are able to calculate the median salary for the group of majors using the provided median salaries for the individual majors.
 ```
 recentgrads_df %>% group_by(Major_category) %>% 
   summarize(Median_salary = mean(Median))
@@ -29,4 +70,35 @@ recentgrads_df %>% group_by(Major_category) %>%
 14 Physical Sciences                          41890 
 15 Psychology & Social Work                   30100 
 16 Social Science                             37344.
+```  
+
+**select**  
+Now we are going to take a closer look at employment rates. I used the select function to choose to only see the variables Employed, Full_time, Part_time, and Unemployed.  
+```
+recentgrads_df %>% select(Major, Employed, Full_time, Part_time, Unemployed)
+```
+```
+                                      Major Employed Full_time Part_time Unemployed
+1                     PETROLEUM ENGINEERING     1976      1849       270         37
+2            MINING AND MINERAL ENGINEERING      640       556       170         85
+3                 METALLURGICAL ENGINEERING      648       558       133         16
+4 NAVAL ARCHITECTURE AND MARINE ENGINEERING      758      1069       150         40
+5                      CHEMICAL ENGINEERING    25694     23170      5180       1672
+6                       NUCLEAR ENGINEERING     1857      2038       264        400
+```  
+
+**mutate**  
+Using this selection of information, I am going to compute, out of the number of students that found work in their field, the number of students who are currently working full-time jobs in that field of work.
+```
+fulltime_Percent <- recentgrads_df %>% select(Major, Employed, Full_time, Part_time) %>% 
+  mutate(Fulltime_percent = Full_time/Employed)
+```
+```
+                                      Major Employed Full_time Part_time Fulltime_percent
+1                     PETROLEUM ENGINEERING     1976      1849       270        0.9357287
+2            MINING AND MINERAL ENGINEERING      640       556       170        0.8687500
+3                 METALLURGICAL ENGINEERING      648       558       133        0.8611111
+4 NAVAL ARCHITECTURE AND MARINE ENGINEERING      758      1069       150        1.4102902
+5                      CHEMICAL ENGINEERING    25694     23170      5180        0.9017669
+6                       NUCLEAR ENGINEERING     1857      2038       264        1.0974690
 ```
