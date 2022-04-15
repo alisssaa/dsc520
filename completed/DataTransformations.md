@@ -101,4 +101,48 @@ fulltime_Percent <- recentgrads_df %>% select(Major, Employed, Full_time, Part_t
 4 NAVAL ARCHITECTURE AND MARINE ENGINEERING      758      1069       150        1.4102902
 5                      CHEMICAL ENGINEERING    25694     23170      5180        0.9017669
 6                       NUCLEAR ENGINEERING     1857      2038       264        1.0974690
+```  
+
+**filter**
+I utilized the filter function in order to filter the data to display majors where women were in the majority of graduates.
+```
+female_Leaning <- recentgrads_df %>% select(Major, ShareWomen, Median) %>% filter(ShareWomen > 0.5)
+```
+```
+                                                       Major ShareWomen Median
+1                                 ASTRONOMY AND ASTROPHYSICS  0.5357143  62000
+2                                              PUBLIC POLICY  0.5585480  50000
+3                                                    NURSING  0.8960190  48000
+4 NUCLEAR, INDUSTRIAL RADIOLOGY, AND BIOLOGICAL TECHNOLOGIES  0.7504726  46000
+5                                                 ACCOUNTING  0.5241526  45000
+6                           MEDICAL TECHNOLOGIES TECHNICIANS  0.7539274  45000
+```  
+  
+b. purrr  
+  
+**keep**  
+Using the keep function, I applied it to the list of majors, opting to only keep the ones that have "engineer" in the name.
+```
+engineering_Majors <- keep(recentgrads_df$Major, str_detect(recentgrads_df$Major, "ENGINEER"))
+```
+This provides a list of all of the majors that fall under engineering, providing an alternative to filtering the majors by major category.  
+```
+[1] "PETROLEUM ENGINEERING"                    
+[2] "MINING AND MINERAL ENGINEERING"           
+[3] "METALLURGICAL ENGINEERING"                
+[4] "NAVAL ARCHITECTURE AND MARINE ENGINEERING"
+[5] "CHEMICAL ENGINEERING"                     
+[6] "NUCLEAR ENGINEERING" 
+```  
+  
+**discard**  
+Using the discard function, I performed the opposite operation and discarded all of the engineering majors. This provides a list of non-engineering fields.
+```
+non_engineering_Majors <- discard(recentgrads_df$Major, str_detect(recentgrads_df$Major, "ENGINEER"))
+```
+The output for this variable looks like this:  
+```
+[1] "ACTUARIAL SCIENCE"          "ASTRONOMY AND ASTROPHYSICS"
+[3] "MATERIALS SCIENCE"          "COURT REPORTING"           
+[5] "COMPUTER SCIENCE"           "FOOD SCIENCE"   
 ```
