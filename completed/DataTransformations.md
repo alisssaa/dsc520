@@ -146,3 +146,64 @@ The output for this variable looks like this:
 [3] "MATERIALS SCIENCE"          "COURT REPORTING"           
 [5] "COMPUTER SCIENCE"           "FOOD SCIENCE"   
 ```
+  
+c. cbind/rbind  
+  
+**cbind**  
+Using the cbind function, I added the Fulltime_percent column that I had created earlier to the main data frame.  
+```
+recentgrads_df2 <- cbind(recentgrads_df, Fulltime_percent = fulltime_Percent$Fulltime_percent)
+```
+```
+                                      Major Employed Full_time Part_time Fulltime_percent
+1                     PETROLEUM ENGINEERING     1976      1849       270        0.9357287
+2            MINING AND MINERAL ENGINEERING      640       556       170        0.8687500
+3                 METALLURGICAL ENGINEERING      648       558       133        0.8611111
+4 NAVAL ARCHITECTURE AND MARINE ENGINEERING      758      1069       150        1.4102902
+5                      CHEMICAL ENGINEERING    25694     23170      5180        0.9017669
+6                       NUCLEAR ENGINEERING     1857      2038       264        1.0974690
+```   
+  
+**rbind**
+Since there was no additional data to add to this particular data frame, I instead switched over to the housing datasets for this particular function. I used the rbind function to bind the week 6 housing data with the week 7 housing data to create a single set of data.  
+```
+multi_week_housing_df <- rbind(housing_week_6_df, housing_week_7_df)
+```
+```
+  sale_date sale_price          addr_full  zip5
+1    1/3/06     698000  17021 NE 113TH CT 98052
+2    1/3/06     649990  11927 178TH PL NE 98052
+3    1/3/06     572500 13315 174TH AVE NE 98052
+4    1/3/06     420000  3303 178TH AVE NE 98052
+5    1/3/06     369900  16126 NE 108TH CT 98052
+6    1/3/06     184667   8101 229TH DR NE 98053
+```  
+  
+d. stringr  
+  
+**str_split**  
+I used the split function to split the name of the majors that have an "and" contained in them into two separate words.  
+```
+str_split(recentgrads_df2$Major, "AND")
+```
+```
+[[1]]
+[1] "PETROLEUM ENGINEERING"
+
+[[2]]
+[1] "MINING "              " MINERAL ENGINEERING"
+
+[[3]]
+[1] "METALLURGICAL ENGINEERING"
+
+[[4]]
+[1] "NAVAL ARCHITECTURE " " MARINE ENGINEERING"
+
+[[5]]
+[1] "CHEMICAL ENGINEERING"
+
+[[6]]
+[1] "NUCLEAR ENGINEERING"
+```  
+  
+**str_flatten**
