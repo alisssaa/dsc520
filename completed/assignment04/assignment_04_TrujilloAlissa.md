@@ -1,7 +1,7 @@
 ---
 title: "ASSIGNMENT 4"
-author: "Firstname Lastname"
-date: '2010-02-14'
+author: Alissa Trujillo
+date: 'April 16, 2022'
 output:
   word_document: default
   html_document: default
@@ -19,9 +19,13 @@ bibliography: bibliography.bib
 ## Images  
 ![image](https://github.com/alisssaa/dsc520/blob/master/completed/assignment04/plots/10-all-cases-log.png)
 
-## Add a Quote
+## Add a Quote  
+> "Treat yo' self!"
+>   
+> --- Donna Meagle
 
 ## Add an Equation
+$\frac{a}{b}$
 
 ## Add a Footnote
 
