@@ -25,11 +25,11 @@ bibliography: bibliography.bib
 > --- Donna Meagle
 
 ## Add an Equation
-$\frac{a}{b}$
+$f(x) = \frac{1}{2}x^3$
 
 ## Add a Footnote
 
-This is a footnote
+^[Footnotes are fun!]
 
 ## Add Citations
 
