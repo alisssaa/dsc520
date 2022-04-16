@@ -1,7 +1,7 @@
 This assignment was completed using the College Major dataset provided by 538 here:  
 https://github.com/fivethirtyeight/data/blob/master/college-majors/recent-grads.csv  
   
-a. dplyr Operations  
+## a. dplyr Operations  
   
 **group_by**  
 This data set demonstrates data for many individual majors, but each major is also classified in a more broad "major group" (engineering, arts, etc.) I used the group_by function to group the data by the major category.  
@@ -45,7 +45,7 @@ recentgrads_df %>% group_by(Major_category) %>% arrange(Major_category)
 10   162       1199 MISCELL…  1488   404  1084 Agriculture &…      0.728          24
 ```  
 
-**summarize**
+**summarize**  
 By combining the group_by and summarize functions, we are able to calculate the median salary for the group of majors using the provided median salaries for the individual majors.
 ```
 recentgrads_df %>% group_by(Major_category) %>% 
@@ -118,7 +118,7 @@ female_Leaning <- recentgrads_df %>% select(Major, ShareWomen, Median) %>% filte
 6                           MEDICAL TECHNOLOGIES TECHNICIANS  0.7539274  45000
 ```  
   
-b. purrr  
+## b. purrr  
   
 **keep**  
 Using the keep function, I applied it to the list of majors, opting to only keep the ones that have "engineer" in the name.
@@ -147,7 +147,7 @@ The output for this variable looks like this:
 [5] "COMPUTER SCIENCE"           "FOOD SCIENCE"   
 ```
   
-c. cbind/rbind  
+## c. cbind/rbind  
   
 **cbind**  
 Using the cbind function, I added the Fulltime_percent column that I had created earlier to the main data frame.  
@@ -179,7 +179,7 @@ multi_week_housing_df <- rbind(housing_week_6_df, housing_week_7_df)
 6    1/3/06     184667   8101 229TH DR NE 98053
 ```  
   
-d. stringr  
+## d. stringr  
   
 **str_split**  
 I used the split function to split the name of the majors that have an "and" contained in them into two separate words.  
