@@ -206,4 +206,17 @@ str_split(recentgrads_df2$Major, "AND")
 [1] "NUCLEAR ENGINEERING"
 ```  
   
-**str_flatten**
+**str_replace**  
+I used the replace function to, rather than splitting the names of the major, piece them together with an ampersand in the middle rather than the word "and".  
+```
+grads_Ampersand <- str_replace_all(recentgrads_df$Major, "AND", "&")
+```
+This produces the output below:  
+```
+[1] "PETROLEUM ENGINEERING"                  
+[2] "MINING & MINERAL ENGINEERING"           
+[3] "METALLURGICAL ENGINEERING"              
+[4] "NAVAL ARCHITECTURE & MARINE ENGINEERING"
+[5] "CHEMICAL ENGINEERING"                   
+[6] "NUCLEAR ENGINEERING"  
+```
