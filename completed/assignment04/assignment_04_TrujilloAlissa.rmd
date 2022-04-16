@@ -28,7 +28,6 @@ bibliography: bibliography.bib
 $f(x) = \frac{1}{2}x^3$
 
 ## Add a Footnote
-
 ^[Footnotes are fun!]
 
 ## Add Citations
@@ -37,6 +36,11 @@ $f(x) = \frac{1}{2}x^3$
 * Discovering Statistics Using R
 
 # Inline Code
+```{r include = false}
+library(ggplot2)  
+heights_df <- read.csv(data/
+california_df <- read.csv(data/nytimes/covid-19-data/us-states
+
 
 ## NY Times COVID-19 Data
 
