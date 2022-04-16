@@ -11,9 +11,13 @@ bibliography: bibliography.bib
 
 # Markdown Basics
 
-## Favorite Foods
+## Favorite Foods  
+1. Sushi
+2. Guacamole
+3. Tacos
 
-## Images
+## Images  
+![image](https://github.com/alisssaa/dsc520/blob/master/completed/assignment04/plots/10-all-cases-log.png)
 
 ## Add a Quote
 
