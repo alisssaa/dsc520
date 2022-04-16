@@ -38,11 +38,21 @@ $f(x) = \frac{1}{2}x^3$
 # Inline Code
 ```{r include = false}
 library(ggplot2)  
-heights_df <- read.csv(data/
-california_df <- read.csv(data/nytimes/covid-19-data/us-states
-
+heights_df <- read.csv("data/r4ds/heights.csv")
+covid_data_df <- read.csv("data/nytimes/covid-19-data/us-states.csv")
+california_df <- filter(covid_data_df, state == "California")
+florida_df <- filter(covid_data_df, state == "Florida")
+ny_df <- filter(covid_data_df, state == "New York")
+```
 
 ## NY Times COVID-19 Data
+```
+plot_California <- ggplot(california_df, aes(x=x, y=y)) + geom_point() + scale_y_continuous(trans='log10')
+plot_Florida <- ggplot(florida_df, aes(x=x, y=y)) + geom_point() + scale_y_continuous(trans='log10')
+plot_NY <- ggplot(ny_df, aes(x=x, y=y)) + geom_point() + scale_y_continuous(trans='log10')
+
+plot_California + plot_Florida + plot_NY
+```
 
 ## R4DS Height vs Earnings
 
