@@ -150,3 +150,4 @@ ringbearers_df <- characters_df[characters_df$ring_bearer == TRUE,]
 
 ## Use `head()` to output the first few rows of `ringbearers_df`
 head(ringbearers_df)
+
