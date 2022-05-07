@@ -1,5 +1,6 @@
 library(boot); library(car)
 library(Rcmdr)
+library(lm.beta)
 
 setwd("/Users/alissa/Documents/Grad/DSC 520/dsc520")
 
