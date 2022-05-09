@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 
 
 ## Introduction
 
-For my final project in DSC 520, I will be delving into data regarding
+For my final project in DSC 520, I will be delving into data surrounding
 the reality show Big Brother. The focus of my research will be to
 determine which factors statistically influence a house guest's
 probability of winning. I intend to use the methods learned in this
@@ -42,8 +42,8 @@ regarding future house guests and how they will fare in the game.
     to win America's Favorite Player?
 
 -   Are there any correlations between players surviving the block
-    (being nominated many times but surviving) and lasting longer in the
-    game?
+    (being nominated for eviction but surviving) and lasting longer in
+    the game?
 
 -   Do players from a certain locale (certain states, or perhaps big
     city vs. small city) tend to make it farther in the game?
@@ -71,14 +71,22 @@ way to prove causation in one direction or another.
 
 This approach will address the problem at hand by providing statistical
 evidence for whether the beliefs that the audience hold about who is
-likely to be a winner really hold up. It is a common belief that winning
+likely to be a winner truly hold up. It is a common belief that winning
 the first HOH, not walking in the house first, and many other
 superstitious things are very influential in a house guest ultimately
 winning the game. I intend on using statistical evidence to prove
 whether these beliefs are true or are just fallacies that have arisen
 over the 20 years the show has been on the air.
 
-## Datasets
+There is no way to fully address the question on how to, without fault,
+become a winner of Big Brother. There are many other influences, such as
+social interactions and random chance introduced by the game itself,
+that cannot be measured. There is no foolproof way to ensure you will
+win the game, but I intend to find the most predictive circumstances for
+which house guests have won and could win the game given the data
+collected.
+
+## Data Sets
 
 ### Big Brother Contestant Data
 
@@ -91,7 +99,9 @@ are from, and many other game-related pieces of information. This data
 set has 49 variables with 370 observations. This means that there are 49
 pieces of information about each of the 370 house guests that the show
 has had over the last 23 seasons. The original data was compiled by a
-Kaggle user in order to do a research project on diversity in the show.
+github user (vdixon3) in order to do a research project on diversity in
+the show.
+
 This data has been continuously updated so that it inlcudes the most
 recent season that concluded in 2021. There are a couple sections of
 n/a's in the data. The first season did not have HOH or Veto
@@ -105,14 +115,38 @@ as well.
 
 <https://github.com/vdixon3/big-brother-diversity-data/blob/master/big_brother_data_diversity.csv>
 
-This data set was compiled by the same Kaggle user as the first data set
-I have presented. This set of data focuses on the racial diversity of
-each individual season. It provides breakdowns of each race's
+This data set was compiled by the same user (vdixon3) as the first data
+set I have presented. This set of data focuses on the racial diversity
+of each individual season. It provides breakdowns of each race's
 representation in the season as well as ratios, biracial inclusion, and
 separate columns that separate contestants who racial background is
 unknown. This data set is complete and does not have any n/a's, as it
 instead puts all house guests with unknown backgrounds into the
 "unknown" category.
+
+## Additional Contestant Data
+
+<https://github.com/alisssaa/dsc520/blob/master/FinalProject/data/bb_additional_data.csv>
+
+This data set is made up of data I compiled from online sources. I took
+the first few columns of the contestant data, including their names and
+identifier codes, so that this data will fit nicely with the data I have
+already found. I added two additional columns that indicate whether a
+house guest was the first to enter the house, and whether they won the
+first HOH competition. This data was obtained on wikipedia and the Big
+Brother Wiki. These are two important pieces of information I will need
+in order to test the hypotheses that those are important indicators for
+a contestant to win the game. There is one section of n/a values which
+correspond with the fact that there were no HOH competitions in the
+first season.
+
+Sources for the data:
+
+**first_to_enter**\
+<https://bigbrother.fandom.com/wiki/First_to_Enter_Curse>
+
+**first_hoh**\
+<https://bigbrother.fandom.com/wiki/List_of_Head_of_Household_Competitions>
 
 ## Required Packages
 
@@ -120,18 +154,35 @@ Packages that I will need to conduct this project are as follows:
 
 -   **ggplot2** in order to make professional looking plots of my data
 
--   **lm.beta** so I will be able to do regression analysis on my variables
+-   **lm.beta** so I will be able to do regression analysis on my
+    variables
 
--  **dplyr** to manipulate data tables as well as combine data from one table with another
+-   **dplyr** to manipulate data tables as well as combine data from one
+    table with another
 
--  **reshape2** to clean up data tables
+-   **reshape2** to clean up data tables
 
 ## Plots and Tables
 
-Since the data is so large, I will use smaller tables to filter the data by season, placement, and other factors to concisely present data that is important to the questions I am presenting to the audience.
+Since the data is so large, I will use smaller tables to filter the data
+by season, placement, and other factors to concisely present data that
+is important to the questions I am presenting to the audience.
 
-I will use scatter plots in order to compare the 370 house guests with each other on various variables. I will overlay them with regression models in order to see if there are trends in data and how far each house guest falls from what the model predicts. Histograms will also be useful in seeing how often a certain characteristic (such as winning specific competitions, being part of a specific population, etc.) results in a certain result (such as winning the game or making it to jury).
+I will use scatter plots in order to compare the 370 house guests with
+each other on various variables. I will overlay them with regression
+models in order to see if there are trends in data and how far each
+house guest falls from what the model predicts. Histograms will also be
+useful in seeing how often a certain characteristic (such as winning
+specific competitions, being part of a specific population, etc.)
+results in a certain result (such as winning the game or making it to
+jury).
 
 ## Future Steps
 
-In order to answer my research questions, there is still data I need to collect. I have started collecting data from web sources that will assist me in answering my questions, but I am sure there will be missing pieces that I need to collect later. I also need to work on having a more robust grasp on multiple regression and how to calculate it, as well as having a deeper understanding of what each of the calculations mean.
+In order to answer my research questions, there is still data I need to
+collect. I have started collecting data from web sources that will
+assist me in answering my questions, but I am sure there will be missing
+pieces that I need to collect later. I also need to work on having a
+more robust grasp on multiple regression and how to calculate it, as
+well as having a deeper understanding of what each of the calculations
+mean.

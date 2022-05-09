@@ -1,0 +1,26 @@
+---
+title: "Week 8 Exercise"
+author: "Alissa Trujillo"
+date: '2022-05-09'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
+```
+
+## Week 8 Exercise
+
+### Assignment06_TrujilloAlissa
+
+Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_06_TrujilloAlissa.R>
+
+### Assignment07_TrujilloAlissa
+
+Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_07_TrujilloAlissa.R>
+
+### Housing Data
+
+#### Rmd File
+
+
