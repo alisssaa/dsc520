@@ -1,0 +1,51 @@
+---
+title: "Final Project Milestone 1"
+author: "Alissa Trujillo"
+date: '2022-05-07'
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
+```
+
+## Introduction
+
+For my final project in this course, I plan to delve into the vast
+amount of data that exists pertaining to the NFL. There is a wealth of
+data on the subject, including information on players, win statistics,
+stadium statistics, injuries, etc. Information in this realm has proven
+to be interesting to viewers, as every NFL broadcast includes statistics
+regarding players, the plays that are chosen, the probability of
+scoring, and many other factors. It is considered a data science problem
+because there is a significant amount o data that exists and we are able
+to make observations based on past data and use it in order to make
+predictions for the future. I am particularly interested in looking at
+the data, as there are many widely accepted motifs such as "home-team
+advantage" and turf causing more injuries than grass, and I am curious
+to see whether there are significant correlations or causations in the
+data to support them.
+
+## Research Questions
+
+-   What factors correlate strongly with a team winning a game?
+
+-   Is there a significant improvement to win rate when the team has
+    home-team advantage?
+
+-   Does weather have a significant effect on scoring during a game?
+
+-   Do teams who have outdoor stadiums perform better in more diverse
+    climates?
+
+-   Does playing a game in a neutral stadium during a year handicap a
+    team significantly?
+
+## Approach
+
+There exists data 
+
+By analyzing the data available on NFL win statistics, I will be able to see whether there are strong correlations between any of these data points and confirm or deny whether some of these widely-held beliefs are actually true. There is data dating back to the 1960's on individual games and scores, giving me a significant amount of data points to make educated predictions and analysis. 
