@@ -3,10 +3,14 @@ title: "Week 8 Exercise"
 author: "Alissa Trujillo"
 date: '2022-05-09'
 output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 58), tidy = TRUE)
 ```
 
 ## Housing Data
@@ -149,9 +153,8 @@ This table shows us all of the instances in our data of large residuals. Accordi
 housing_diagnostics$large_leverage <- housing_diagnostics$leverage > (5/12865) * 3
 housing_high_leverage <- subset(housing_diagnostics, housing_diagnostics$large_leverage == TRUE)
 nrow(housing_high_leverage)
-``` 
-Therere
-Th
+```
+
 There are 479 instances of higher than normal leverage, denoted by (k+1)/n. This represents roughly 3.7% of the cases studied, which is less than the 5% that is acceptable. In a normally distributed sample, this is normal to see a small number of data points that are far from the mean. This does not denote a problem in our data.
 
 **Cook's Distance**
@@ -175,12 +178,17 @@ nrow(housing_high_cratio)
 The upper limit of the acceptable values for the covariance ratio is 1 + 3 x (5/12865), while the lower limit is 1 + 3 x (5/12865). This means that 5.8% of our data points fall outside our acceptable covariance ratio. This can be problematic, but we can see if these data points are also troublesome in different ways.
 
 ```{r}
-problematic_data <- subset(housing_diagnostics, housing_diagnostics$large_cratio == TRUE & housing_diagnostics$large_leverage == TRUE)
-head(problematic_data)
+problematic_data <- subset(housing_diagnostics, housing_diagnostics$large_cratio == TRUE && housing_diagnostics$large_leverage == TRUE)
+nrow(problematic_data)
 ```
+
 This table is blank, showing us that there are no data points which both have a higher than normal leverage as well as a covariance ratio outside the acceptable bounds. We know also that there are no pieces of data that have a concerning Cook's distance. Out of the three tests we performed on the data, no data point failed more than one. This helps bolster our confidence that there are no pieces of data that are overbearingly influencing our data.
 
 ### xii. Independence
+
+```{r, include=FALSE}
+library(car)
+```
 
 ```{r}
 durbinWatsonTest(sale_price_predictors_lm)
