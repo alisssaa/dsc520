@@ -20,15 +20,16 @@ determine which factors statistically influence a house guest's
 probability of winning. I intend to use the methods learned in this
 course to analyze what makes a good winner, examining which factors are
 correlated with making it far in the game. Big Brother has a very
-involved fan base, it seems that those who watch the show are very
-passionate about it rather than being casual fans. I think this data
-would be very interesting for those who watch this show or are
-interested in applying to be on the show. It is a data science problem
-because I will be analyzing the wealth of data that exists regarding the
-show and past house guests. I will be taking observations of many
-variables into account in order to determine trends and correlations
-that exist in the data, and I will use that to make predictions
-regarding future house guests and how they will fare in the game.
+involved fan base, it seems that those who watch the show tend to be
+very passionate about it rather than being casual fans. I think this
+data would be particularly interesting for those who watch this show or
+are interested in applying to be on the show. It is a data science
+problem because I will be analyzing the wealth of data that exists
+regarding the show and past house guests. I will be taking observations
+of many variables into account in order to determine trends and
+correlations that exist in the data, and I will use that to make
+predictions regarding future house guests and how they will fare in the
+game.
 
 ## Research Questions
 
@@ -54,7 +55,7 @@ regarding future house guests and how they will fare in the game.
 ## Approach
 
 I will approach my problem of determining the factors that make a
-successful big brother player by looking at a number of different data
+successful Big Brother player by looking at a number of different data
 sets. I intend to collect more data using the resources that exist
 online in order to add more variables to the main data set that I found.
 Using the variables provided as well as others that I am able to
@@ -62,10 +63,10 @@ discover during my own research, I intend to look at a number of
 correlations to see what factors highly correlate with winning the game,
 making it to jury (the final phase of the game), and winning America's
 Favorite Player. I will also cross-reference to see if these factors are
-similar to each other, or if there are significant differences between
-what makes a player likely to make it far versus winning the whole game.
-Once I am able to calculate the correlations, I will see if there is any
-way to prove causation in one direction or another.
+correlated with each other, or if there are significant differences
+between what makes a player likely to make it far versus winning the
+whole game. Once I am able to calculate the correlations, I will see if
+there is any way to prove causation in one direction or another.
 
 ## Addressing The Problem
 
@@ -97,12 +98,12 @@ includes data on contestant's placing in the game, the number of
 competitions they have won, whether they made jury or not, where they
 are from, and many other game-related pieces of information. This data
 set has 49 variables with 370 observations. This means that there are 49
-pieces of information about each of the 370 house guests that the show
+pieces of information about each of the 370 houseguests that the show
 has had over the last 23 seasons. The original data was compiled by a
 github user (vdixon3) in order to do a research project on diversity in
 the show.
 
-This data has been continuously updated so that it inlcudes the most
+This data has been continuously updated so that it includes the most
 recent season that concluded in 2021. There are a couple sections of
 n/a's in the data. The first season did not have HOH or Veto
 competitions, so that data is n/a as they did not exist. The second
@@ -124,7 +125,7 @@ unknown. This data set is complete and does not have any n/a's, as it
 instead puts all house guests with unknown backgrounds into the
 "unknown" category.
 
-## Additional Contestant Data
+### Additional Contestant Data
 
 <https://github.com/alisssaa/dsc520/blob/master/FinalProject/data/bb_additional_data.csv>
 
@@ -132,7 +133,7 @@ This data set is made up of data I compiled from online sources. I took
 the first few columns of the contestant data, including their names and
 identifier codes, so that this data will fit nicely with the data I have
 already found. I added two additional columns that indicate whether a
-house guest was the first to enter the house, and whether they won the
+houseguest was the first to enter the house, and whether they won the
 first HOH competition. This data was obtained on wikipedia and the Big
 Brother Wiki. These are two important pieces of information I will need
 in order to test the hypotheses that those are important indicators for
@@ -162,6 +163,13 @@ Packages that I will need to conduct this project are as follows:
 
 -   **reshape2** to clean up data tables
 
+-   **car** to calculate Cook's distance as well as VIF,
+    perform Durbin-Watson tests and outlier tests, and complete ANOVA
+    tables
+
+-   **stats** in order to compute confidence intervals, assess
+    correlation, and fit regression models
+
 ## Plots and Tables
 
 Since the data is so large, I will use smaller tables to filter the data
@@ -171,11 +179,19 @@ is important to the questions I am presenting to the audience.
 I will use scatter plots in order to compare the 370 house guests with
 each other on various variables. I will overlay them with regression
 models in order to see if there are trends in data and how far each
-house guest falls from what the model predicts. Histograms will also be
+house guest falls from what the model predicts. Histograms will be
 useful in seeing how often a certain characteristic (such as winning
 specific competitions, being part of a specific population, etc.)
 results in a certain result (such as winning the game or making it to
-jury).
+jury). 
+
+The tables provided by casewise diagnostics will be particularly
+useful as well. Residuals vs. Fitted graphs will allow me to see how
+good the model I develop is based on past data. A Q-Q plot will allow me
+to see if my data and the residuals are normally distributed. Residuals
+vs. Leverage graphs will allow me to identify outliers in my data and
+ensure that the Cook's distance of my data points falls within an
+acceptable range.
 
 ## Future Steps
 
@@ -183,6 +199,9 @@ In order to answer my research questions, there is still data I need to
 collect. I have started collecting data from web sources that will
 assist me in answering my questions, but I am sure there will be missing
 pieces that I need to collect later. I also need to work on having a
-more robust grasp on multiple regression and how to calculate it, as
-well as having a deeper understanding of what each of the calculations
-mean.
+more robust grasp on multiple regression and how to analyze it, as well
+as having a deeper understanding of what each of the case wise analysis
+graphs represent and how to interpret them. The housing assignment
+provided me with a better understanding of them, but I will need more
+practice in order to fully grasp the shape and function of the graphs
+and data points. Converting the graphical and numerical information that is produced by the data into descriptions that are useful to an audience is something that I have begun to get more comfortable with, but still need to continue to work at.
