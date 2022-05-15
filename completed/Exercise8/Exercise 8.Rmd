@@ -1,7 +1,7 @@
 ---
 title: "Exercise 8"
 author: "Alissa Trujillo"
-date: '2022-05-15'
+date: '2022-05-09'
 output: pdf_document
 ---
 
@@ -13,18 +13,18 @@ knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 
 
 ### Assignment06_TrujilloAlissa
 
-Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_06_TrujilloAlissa.R>
+<https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_06_TrujilloAlissa.R>
 
 ### Assignment07_TrujilloAlissa
 
-Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_07_TrujilloAlissa.R>
+<https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_07_TrujilloAlissa.R>
 
 ### Housing Data
 
-#### Rmd File
+#### PDF  
 
-Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/HousingData.Rmd
+<https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/HousingData.pdf>
 
-### PDF
+#### Rmd File  
 
-Link: 
+<https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/HousingData.Rmd>
