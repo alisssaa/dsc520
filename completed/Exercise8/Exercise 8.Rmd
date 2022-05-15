@@ -21,10 +21,14 @@ knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 
 
 ### Housing Data
 
-#### PDF  
+#### PDF
 
 <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/HousingData.pdf>
 
-#### Rmd File  
+#### Rmd File
 
 <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/HousingData.Rmd>
+
+## Folder Containing All Assignments for This Week
+
+<https://github.com/alisssaa/dsc520/tree/master/completed/Exercise8>
