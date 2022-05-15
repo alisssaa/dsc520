@@ -9,18 +9,213 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
 ```
 
-## Week 8 Exercise
+## Housing Data
 
-### Assignment06_TrujilloAlissa
+### a. Gathering the Data Set
 
-Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_06_TrujilloAlissa.R>
+```{r}
+setwd("/Users/alissa/Documents/Grad/DSC 520/dsc520")
+housing_df <- read.csv("data/week-6-housing.csv")
+```
 
-### Assignment07_TrujilloAlissa
+### b. Analysis
 
-Link: <https://github.com/alisssaa/dsc520/blob/master/completed/Exercise8/assignment_07_TrujilloAlissa.R>
+#### i. Transformations
 
-### Housing Data
+I completed a couple of transformations to make some of the data columns more useful. Some of the data is difficult to use in the format it is presented in. The year_renovated column is particularly difficult to utilize since the homes that were not renovated contain a numeric value, 0. To address this, the first column I added was a boolean value of whether a house has been renovated.
 
-#### Rmd File
+```{r}
+housing_df$renovated <- housing_df$year_renovated != 0
+```
 
+Next, I added a column that denotes the sale year of each home. Then I converted it to a numeric value in order to be able to use it in future calculations.
 
+```{r}
+library(stringi)
+housing_df$sale_year <- paste("20", stri_sub(housing_df$sale_date, -2, -1), sep = "")
+housing_df$sale_year <- as.numeric(housing_df$sale_year)
+```
+
+The next step I took was to add a new column that calculates the age of the home upon sale. This is an important piece of information that was not contained within the data that could be a bug predictor of sale price.
+
+```{r}
+housing_df$age_at_sale <- housing_df$sale_year - housing_df$year_built
+```
+
+#### ii. Sale Price Variables
+
+```{r}
+library(lm.beta)
+
+sale_price_sqft_lm <- lm(sale_price ~ sq_ft_lot, data=housing_df)
+
+sale_price_predictors_lm <- lm(sale_price ~ sq_ft_lot + square_feet_total_living + age_at_sale + renovated, data=housing_df)
+```
+
+For my multiple regression data frame, I have selected both square feet of the lot and square feet of the living space because I think they will be important indicators in the sale price of a home. There should be a positive correlation between square footage and the price of a home The additional factors I included were age at sale, which I calculated in order to determine the age of the home when it was sold. I think there will be a negative correlation between age and sale price, as newer homes with newer appliances, amenities, etc. will hold more value. I also included a variable denoting whether a home has been renovated or not, because I feel like that adds significant value to a home. Out of the information contained in the data table, these factors seem like they will have the most influence on sale price.
+
+#### iii. Summary
+
+```{r}
+summary(sale_price_sqft_lm)
+```
+
+The R2 statistic for this simple regression is 0.01435, meaning that the square feet of the lot can account for 1.4% of variation in sale price. The adjusted R2 is 0.01428 after taking into account the number of independent variables. Since there is only one variable we are testing, the values are very similar, but as we add more variables to our model, R2 will go up and the adjusted R2 will be more conservative because it takes into account that we are adding a number of new variables.
+
+```{r}
+summary(sale_price_predictors_lm)
+```
+
+The R2 has increased after adding more variables to our regression, now sitting at 0.219. This means that the variables at hand (lot size, size of living space, age at sale, and whether the house is renovated) account for 21.9% of the variation in sale price. The adjusted R squared is slightly lower, at 0.2188, which accounts for the fact that we are testing multiple variables. All of these variables are statistically significant, meaning that we can reject the null hypothesis that they do not have an effect on sale price.
+
+#### iv. Betas
+
+```{r}
+lm.beta(sale_price_predictors_lm)
+```
+
+The betas for each parameter indicate the strength of the relationship between each of them and the dependent variable we are measuring. The beta for square_feet_total_living is 0.408, meaning that for every standard deviation increase in sale price, there is also a 0.408 standard deviation increase in living space, all other variables held constant. The beta for sq_ft_lot is 0.038, meaning that for every standard deviation increase in sale price, there is also a 0.038 standard deviation increase in the size of the lot, all other variables held constant. The beta for age_at_sale is -0.121, meaning that for every standard deviation increase in sale price, there is also a 0.121 standard deviation decrease in the age of the home, all other variables held constant. The beta for renovated is 0.039, meaning that for every standard deviation increase in sale price, there is also a 0.039 standard deviation increase in whether a home is renovated, all other variables held constant. This result, however, is a bit more difficult to interpret because it is a boolean variable.
+
+#### v. Confidence Intervals
+
+```{r}
+confint(sale_price_predictors_lm)
+```
+
+These are the confidence intervals presented at a 95% level. These results indicate that there is a 95% chance of the true value of each of the coefficients falling within these intervals. All of these values are, at a 95% level, significantly different than 0, which supports our ability to reject the null hypothesis that the variables do not have an effect on sale price.
+
+### vi. ANOVA
+
+```{r}
+sale_price_anova <- aov(sale_price ~ sq_ft_lot, data = housing_df)
+sale_price_anova_m <- aov(sale_price ~ sq_ft_lot + square_feet_total_living + age_at_sale + renovated, data=housing_df)
+summary(sale_price_anova)
+summary(sale_price_anova_m)
+```
+
+The original simple regression, after completing an ANOVA assessment, had a very high value of residuals, 2073376756946868. After analysing the variance of the improved multiple regression model, the residuals decreased to 1642849926731011. This is still a huge number but since the numbers we are dealing with, house prices, are also very high, this is to be expected. The value of the residuals dropped by just over 20% which is a significant improvement for our model.
+
+### vii. Casewise Diagnostics
+
+```{r}
+housing_diagnostics <- housing_df
+
+housing_diagnostics$predicted.probabilities<-fitted(sale_price_predictors_lm)
+housing_diagnostics$standardized.residuals<-rstandard(sale_price_predictors_lm)
+housing_diagnostics$studentized.residuals<-rstudent(sale_price_predictors_lm)
+housing_diagnostics$dfbeta<-dfbeta(sale_price_predictors_lm)
+housing_diagnostics$dffit<-dffits(sale_price_predictors_lm)
+housing_diagnostics$leverage<-hatvalues(sale_price_predictors_lm)
+housing_diagnostics$covariance.ratios<-covratio(sale_price_predictors_lm)
+housing_diagnostics$cooks.distance<-cooks.distance(sale_price_predictors_lm)
+head(housing_diagnostics[, c("leverage", "studentized.residuals", "dfbeta")])
+```
+
+Above I have performed a selection of case wise diagnostics. They are all saved to variables so I am able to use them to analyze my data.
+
+### viii. Standardized Residuals
+
+```{r}
+large_residuals <- subset(housing_diagnostics$standardized.residuals, housing_diagnostics$standardized.residuals > 2 | housing_diagnostics$standardized.residuals < -2)
+
+housing_diagnostics$large_residual <- housing_diagnostics$standardized.residuals > 2 | housing_diagnostics$standardized.residuals < -2
+```
+
+This new variable, large_residuals, contains all of the standardized residuals that are higher than 2 and less than -2. The variable added to the table, large_residual, indicates TRUE or FALSE whether the residual is considered large.
+
+### ix. Sum of Large Residuals
+
+```{r}
+sum(large_residuals)
+```
+
+Summing together all of our large residuals, we can see that the sum is 1189.923.
+
+### x. Variables Containing Large Residuals
+
+```{r}
+housing_large_residuals <- subset(housing_diagnostics, housing_diagnostics$large_residual == TRUE)
+nrow(housing_large_residuals)
+head(housing_large_residuals[c("addr_full", "standardized.residuals", "large_residual")])
+```
+
+This table shows us all of the instances in our data of large residuals. According to this, there are 329 individual homes in our table that have residuals greater than an absolute value of 2. This is roughly 2.6% of our data, which is acceptable. Up to 5% of cases may have residuals before we have cause to worry.
+
+### xi. Leverage, Cook's Distance, Covariance Ratios
+
+**Leverage**
+
+```{r}
+housing_diagnostics$large_leverage <- housing_diagnostics$leverage > (5/12865) * 3
+housing_high_leverage <- subset(housing_diagnostics, housing_diagnostics$large_leverage == TRUE)
+nrow(housing_high_leverage)
+``` 
+Therere
+Th
+There are 479 instances of higher than normal leverage, denoted by (k+1)/n. This represents roughly 3.7% of the cases studied, which is less than the 5% that is acceptable. In a normally distributed sample, this is normal to see a small number of data points that are far from the mean. This does not denote a problem in our data.
+
+**Cook's Distance**
+
+```{r}
+housing_diagnostics$cooksd_high <- housing_diagnostics$cooks.distance > 1
+housing_high_cooksd <- subset(housing_diagnostics, housing_diagnostics$cooksd_high == TRUE)
+nrow(housing_high_cooksd)
+```
+
+We will now evaluate the Cook's distance of each of our data points. Anything over a value of 1 is a cause of alarm. According to our data, we do not have any cases where the Cook's distance is larger than 1. This means that none of our individual pieces of data have exaggerated influence on our model.
+
+**Covariance Ratio**
+
+```{r}
+housing_diagnostics$large_cratio <- housing_diagnostics$covariance.ratios > (1 + 3*(5/12865)) | housing_diagnostics$covariance.ratios < (1 - 3*(5/12865))
+housing_high_cratio <- subset(housing_diagnostics, housing_diagnostics$large_cratio == TRUE)
+nrow(housing_high_cratio)
+```
+
+The upper limit of the acceptable values for the covariance ratio is 1 + 3 x (5/12865), while the lower limit is 1 + 3 x (5/12865). This means that 5.8% of our data points fall outside our acceptable covariance ratio. This can be problematic, but we can see if these data points are also troublesome in different ways.
+
+```{r}
+problematic_data <- subset(housing_diagnostics, housing_diagnostics$large_cratio == TRUE & housing_diagnostics$large_leverage == TRUE)
+head(problematic_data)
+```
+This table is blank, showing us that there are no data points which both have a higher than normal leverage as well as a covariance ratio outside the acceptable bounds. We know also that there are no pieces of data that have a concerning Cook's distance. Out of the three tests we performed on the data, no data point failed more than one. This helps bolster our confidence that there are no pieces of data that are overbearingly influencing our data.
+
+### xii. Independence
+
+```{r}
+durbinWatsonTest(sale_price_predictors_lm)
+```
+
+The DWT results in a D-W statistic of 0.554, which is very far off from the preferred value of 2. Since it is less than 1, it suggests that there is positive autocorrelation between the variables. This is a cause for concern, though the nature of the data and housing markets seems to be a likely candidate for issues like this. Since changes in the market tend to trend over time and by area, it makes sense that the data points show correlation within themselves. While this is concerning, it makes sense due to the type of data we are dealing with. Past housing prices are likely to influence future housing prices, and housing market trends change fairly slowly.
+
+### xiii. Multicollinearity
+
+```{r}
+vif(sale_price_predictors_lm)
+```
+
+The VIF for each variable is fairly close to 1, with the average being also very close to 1. A troublesome VIF is considered to be over 10, so our data looks good here.
+
+```{r}
+1/vif(sale_price_predictors_lm)
+```
+
+The tolerance for each variable also seems to be close to 1. A value under 0.2 would be a cause for concern, so our data checks out here as well. After analyzing our data, we can be confident that there is no multicollinearity.
+
+### xiv. Residual Graphs
+
+```{r}
+plot(sale_price_predictors_lm)
+```
+
+The first plot shows our residuals versus the fitted values. This graph is heavily focused towards the left hand side. There are a number of fitted values that have much higher values than their residual counterpart. This shows that the model predicts much higher values than the actual sale price in many instances. This could be due in part to a cap of sorts to the housing market, where homes above a certain price are too unaffordable and so homeowners do not extend the price of the home as high as it could be in a free economic market.
+
+The Q-Q plot is skewed to the right, meaning that the peak of our data distribution is farther to the right, with more sparse data points to the left-hand side. This indicates that our median sale price is lower than the model would predict. This supports the discussion above, regarding how homes may be priced lower than their amenities may predict. Once again, it could be related to a sort of ceiling to the housing market.
+
+The scale-location plot angles up sharply towards the right, indicating that the data exhibits heteroscedastity. This means that the variability of the data does not seem to match what the model would predict. Our model predicts that there is a lot more variability in sale price of homes than the data actually has.
+
+The Residuals vs. Leverage plot allows us to identify possible outliers. We have a few data points that are towing the line of Cook's distance. We know we do not have anything outside of this barrier, but we do have a few points that near it. There are two specific cases that are near the line, #4649 and #8377.
+
+### xv. Conclusion
+
+Our large sample of data allows for us to have a collection of data points where nothing has undue influence over the model. However, the model exhibits heteroscedastity and autocorrelation between the data points These two factors hurt our model's ability to accurately predict future data points. The Q-Q plot skews to the right, meaning that the distribution of our data is farther to the left with a sparing selection of data to the right hand side. These factors all come together to support anomalies in the housing market itself. The factors assessed in the model predict sale price up to a point, however, trends in the housing market cause our data points to be correlated with each other over time and physical space. This makes it difficult for the model to accurately predict home prices since they are affected by overarching trends we are not able to materialize in our model.
