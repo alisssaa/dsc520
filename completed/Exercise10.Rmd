@@ -1,0 +1,139 @@
+---
+title: "Exercise 10"
+author: "Alissa Trujillo"
+date: '2022-05-17'
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 58), tidy = TRUE)
+```
+
+# Exercise 10
+
+## 1. Thoracic Surgery
+
+### a. Importing the Data
+
+```{r}
+setwd("/Users/alissa/Documents/Grad/DSC 520/dsc520")
+library(foreign)
+thoracicSurgery <- read.arff("data/ThoracicSurgery.arff")
+```
+
+In order to make the data a bit easier to read, I am going to create a
+new data table including the pertinent information I will be using in my
+model. I will be assigning the variables more descriptive names so I am
+able to better do analysis.
+
+I will also be converting the Risk1Y variable into a Survival variable.
+The Risk1Y determines whether a patient died within the first year after
+surgery. The Survival variable, on the other hand, will measure whether
+the patient survived the first year. I feel like this is a better
+baseline for my model, rather than having the baseline be measuring
+death. To do so, I must first convert the Risk1Y into a logical
+operator, as it was imported as a factor.
+
+```{r}
+thoracicSurgery$Risk1Yr <- as.logical(thoracicSurgery$Risk1Yr)
+thoracicSurgery$Survival <- !thoracicSurgery$Risk1Yr
+
+Survival <- thoracicSurgery$Survival
+Risk1Y <- thoracicSurgery$Risk1Yr
+Pain <- thoracicSurgery$PRE7
+Cough <- thoracicSurgery$PRE10
+Weak <- thoracicSurgery$PRE11
+Size <- thoracicSurgery$PRE14
+Smoke <- thoracicSurgery$PRE30
+Age <- thoracicSurgery$AGE
+
+thoracicSurgeryX <- data.frame(Risk1Y, Survival, Pain, Cough, Weak, Size, Smoke, Age)
+```
+
+### b. Analysis
+
+#### i. Logistic Regression
+
+The variables I chose were pain before surgery, cough, weakness, size of
+the tumor (with a baseline of OC11, the smallest and most common),
+whether the patient smokes, and age.
+
+```{r}
+thoracic_Model.1 <- glm(Survival ~ Pain + Cough + Weak + Size + Smoke + Age, data = thoracicSurgeryX, family = binomial())
+
+summary(thoracic_Model.1)
+```
+
+#### ii. Variable Analysis
+
+We only had a few variables that had a significant effect on whether a
+patient survived the first year after surgery. They both were in regards
+to the size of the tumor, OC13 and OC14. OC11 is the smallest tumor,
+which we used as the baseline factor for this variable. A size of OC12,
+the next largest tumor, did not seem to have a significant effect on
+survival. However, the two larger sizes of tumors OC13 and OC14 did. A
+tumor of size OC13 or OC14 was unfortunately significantly correlated
+with a patient's failure to survive the first year after their surgery.
+OC13 was significant at a p = 0.05 level while OC14 was significant at a
+p = 0.01 level. A couple of other variables (smoking, pain before
+surgery) have sizable effect sizes, but also have high standard errors
+so they are not reliable predictors.
+
+#### iii. Model Accuracy
+
+```{r}
+thoracicTest <- thoracicSurgeryX
+thoracicTest$model_prob <- predict(thoracic_Model.1, thoracicTest, type = "response")
+thoracicTest$model_predict <- thoracicTest$model_prob >= .5
+thoracicTest$model_correct <- thoracicTest$model_predict == thoracicTest$Survival
+model_accuracy <- sum(thoracicTest$model_correct)/nrow(thoracicTest)
+
+model_accuracy
+```
+
+I used the predict function to predict the survival of each patient
+after the first year after surgery based on the model I designed. If the
+model predicted the patient was 50% or more likely to survive, I
+indicated that the model predicted survival. Then I compared the
+predicted survival to the patient's actual survival after a year. This
+is represented in the model_correct variable. I divided the
+model_correct by the number of total observations to discover that the
+model has an 84.7% accuracy rate.
+
+## 2. Logistic Regression Model
+
+### a. Binary Classifier Data
+
+**Importing the Data**
+
+```{r}
+setwd("/Users/alissa/Documents/Grad/DSC 520/dsc520")
+binary_df <- read.csv("data/binary-classifier-data.csv", header = TRUE)
+```
+
+**Creating the Model**
+
+```{r}
+binary_Model.1 <- glm(label ~ x + y, data = binary_df, family = binomial())
+
+summary(binary_Model.1)
+```
+
+### b. Accuracy
+
+```{r}
+binaryTest <- binary_df
+
+binaryTest$model_prob <- predict(binary_Model.1, binaryTest, type = "response")
+binaryTest$model_predict <- binaryTest$model_prob >= .5
+binaryTest$model_correct <- binaryTest$model_predict == binaryTest$label
+b_model_accuracy <- sum(binaryTest$model_correct)/nrow(binaryTest)
+
+b_model_accuracy
+```
+
+The accuracy of the logistic regression classifier is 58.3%.
