@@ -15,6 +15,9 @@ knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 58), tidy = TRUE)
 
 # Exercise 10
 
+Rmd file:
+<https://github.com/alisssaa/dsc520/blob/master/completed/Exercise10/Exercise10.Rmd>
+
 ## 1. Thoracic Surgery
 
 ### a. Importing the Data
@@ -44,26 +47,34 @@ thoracicSurgery$Survival <- !thoracicSurgery$Risk1Yr
 
 Survival <- thoracicSurgery$Survival
 Risk1Y <- thoracicSurgery$Risk1Yr
+FVC <- thoracicSurgery$PRE4
+Perf <- thoracicSurgery$PRE6
 Pain <- thoracicSurgery$PRE7
+Haem <- thoracicSurgery$PRE8
+Dysp <- thoracicSurgery$PRE9
 Cough <- thoracicSurgery$PRE10
 Weak <- thoracicSurgery$PRE11
 Size <- thoracicSurgery$PRE14
+Diab <- thoracicSurgery$PRE17
+MI <- thoracicSurgery$PRE19
+PAD <- thoracicSurgery$PRE25
 Smoke <- thoracicSurgery$PRE30
+Asthma <- thoracicSurgery$PRE32
 Age <- thoracicSurgery$AGE
 
-thoracicSurgeryX <- data.frame(Risk1Y, Survival, Pain, Cough, Weak, Size, Smoke, Age)
+thoracicSurgeryX <- data.frame(Risk1Y, Survival, FVC , Perf, Pain, Haem, Dysp, Cough, Weak, Size, Diab, MI, PAD, Smoke, Asthma, Age)
+
+thoracicSplit <- sample.split(thoracicSurgeryX, SplitRatio = 0.75)
+thoracicTrain <- subset(thoracicSurgeryX, thoracicSplit == "TRUE")
+thoracicValidate <- subset(thoracicSurgeryX, thoracicSplit == "FALSE")
 ```
 
 ### b. Analysis
 
 #### i. Logistic Regression
 
-The variables I chose were pain before surgery, cough, weakness, size of
-the tumor (with a baseline of OC11, the smallest and most common),
-whether the patient smokes, and age.
-
 ```{r}
-thoracic_Model.1 <- glm(Survival ~ Pain + Cough + Weak + Size + Smoke + Age, data = thoracicSurgeryX, family = binomial())
+thoracic_Model.1 <- glm(Survival ~ FVC + Perf + Pain + Haem + Dysp + Cough + Weak + Size + Diab + MI + PAD + Smoke + Asthma + Age, data = thoracicTrain, family = binomial())
 
 summary(thoracic_Model.1)
 ```
@@ -71,38 +82,31 @@ summary(thoracic_Model.1)
 #### ii. Variable Analysis
 
 We only had a few variables that had a significant effect on whether a
-patient survived the first year after surgery. They both were in regards
+patient survived the first year after surgery. The first two were in regards
 to the size of the tumor, OC13 and OC14. OC11 is the smallest tumor,
 which we used as the baseline factor for this variable. A size of OC12,
 the next largest tumor, did not seem to have a significant effect on
 survival. However, the two larger sizes of tumors OC13 and OC14 did. A
 tumor of size OC13 or OC14 was unfortunately significantly correlated
-with a patient's failure to survive the first year after their surgery.
-OC13 was significant at a p = 0.05 level while OC14 was significant at a
-p = 0.01 level. A couple of other variables (smoking, pain before
-surgery) have sizable effect sizes, but also have high standard errors
-so they are not reliable predictors.
+with a patient's failure to survive the first year after their surgery, all other variables held constant. Both OC13 and OC14 were significant at a p = 0.001 level. Dyspnoea before surgery was also indicative of a patient not surviving the first year after surgery, statistically significant at a p = 0.01 level. Weakness before surgery was statistically significant as well, at a p = 0.05 level.
 
 #### iii. Model Accuracy
 
 ```{r}
-thoracicTest <- thoracicSurgeryX
-thoracicTest$model_prob <- predict(thoracic_Model.1, thoracicTest, type = "response")
-thoracicTest$model_predict <- thoracicTest$model_prob >= .5
-thoracicTest$model_correct <- thoracicTest$model_predict == thoracicTest$Survival
-model_accuracy <- sum(thoracicTest$model_correct)/nrow(thoracicTest)
+thoracicTestV <- predict(thoracic_Model.1, thoracicValidate, type = "response")
+thoracicTestT <- predict(thoracic_Model.1, thoracicTrain, type = "response")
 
-model_accuracy
+confmatrix <- table(Actual_Value=thoracicTrain$Survival, Predicted_Value = thoracicTestT > 0.5)
+
+confmatrix
 ```
 
-I used the predict function to predict the survival of each patient
-after the first year after surgery based on the model I designed. If the
-model predicted the patient was 50% or more likely to survive, I
-indicated that the model predicted survival. Then I compared the
-predicted survival to the patient's actual survival after a year. This
-is represented in the model_correct variable. I divided the
-model_correct by the number of total observations to discover that the
-model has an 84.7% accuracy rate.
+After using my training data to train my model, I am able to plug in my validation data into my model to see how accurate it is. I split it 75/25 for the purposes of this assignment. Looking at the confusion matrix, we can see that 302 of the values were predicted correctly and 48 were predicted incorrectly. We can calculate the accuracy by dividing the correct responses by the total number of data points:
+
+```{r}
+(confmatrix[[1,1]] + confmatrix[[2,2]])/sum(confmatrix)
+```
+The accuracy of the model is 85.6%. If we had guessed "true" for the one year survival rate for all patients, we would have a model that is accurate that is accurate for 86.4% of the data. Our model is unfortunately less accurate than simply assuming every patient survives the year.
 
 ## 2. Logistic Regression Model
 
@@ -118,7 +122,11 @@ binary_df <- read.csv("data/binary-classifier-data.csv", header = TRUE)
 **Creating the Model**
 
 ```{r}
-binary_Model.1 <- glm(label ~ x + y, data = binary_df, family = binomial())
+binarySplit <- sample.split(binary_df, SplitRatio = 0.75)
+binaryTrain <- subset(binary_df, binarySplit == "TRUE")
+binaryValidate <- subset(binary_df, binarySplit == "FALSE")
+
+binary_Model.1 <- glm(label ~ x + y, data = binaryTrain, family = binomial())
 
 summary(binary_Model.1)
 ```
@@ -126,14 +134,14 @@ summary(binary_Model.1)
 ### b. Accuracy
 
 ```{r}
-binaryTest <- binary_df
+binaryTestV <- predict(binary_Model.1, binaryValidate, type = "response")
+binaryTestT <- predict(binary_Model.1, binaryTrain, type = "response")
 
-binaryTest$model_prob <- predict(binary_Model.1, binaryTest, type = "response")
-binaryTest$model_predict <- binaryTest$model_prob >= .5
-binaryTest$model_correct <- binaryTest$model_predict == binaryTest$label
-b_model_accuracy <- sum(binaryTest$model_correct)/nrow(binaryTest)
+confmatrixB <- table(Actual_Value=binaryTrain$label, Predicted_Value = binaryTestT > 0.5)
 
-b_model_accuracy
+confmatrixB
+
+(confmatrixB[[1,1]] + confmatrixB[[2,2]])/sum(confmatrixB)
 ```
 
-The accuracy of the logistic regression classifier is 58.3%.
+The accuracy of the logistic regression classifier is 58.5%. Simply guessing true or false would result in an accuracy of roughly 50%, so this is a slight improvement on the base model.

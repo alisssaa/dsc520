@@ -141,3 +141,11 @@ income1 <- glm(Income ~ HouseCosts + NumWorkers + OwnRent + NumBedrooms + Family
                data=acs, family=binomial(link="logit"))
 
 summary(income1)
+
+thoracicTest <- thoracicSurgeryX
+thoracicTest$model_prob <- predict(thoracic_Model.1, thoracicTest, type = "response")
+thoracicTest$model_predict <- thoracicTest$model_prob >= .5
+thoracicTest$model_correct <- thoracicTest$model_predict == thoracicTest$Survival
+model_accuracy <- sum(thoracicTest$model_correct)/nrow(thoracicTest)
+
+model_accuracy
