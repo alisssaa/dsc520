@@ -1,0 +1,27 @@
+---
+title: "FinalProject"
+author: "Alissa Trujillo"
+date: '2022-05-17'
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+bibliography: bb_bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 58), tidy = TRUE)
+```
+
+# How to Win Big Brother: A Statistical Analysis
+
+## Introduction
+
+Big Brother is a television game show that involves a number of strangers being cut off from the outside world and living in a house together. They have no contact with their families, access to the news, or most of the luxuries of everyday life. They compete in competitions every week to determine who is the Head of Household, who must nominate two houseguests for eviction, and who holds the Power of Veto, which can save one of the nominees on the block. For the first phase of the game, the players who are evicted are sent home. In the second phase of the game, the players who are evicted become members of the jury. They remain sequestered from the outside world and cast votes at the end of the season for the winner.
+
+## What Makes a Good Player?
+
+I have collected data on each of the 370 houseguests who have entered the Big Brother house over the 23 seasons of the show's run. This data includes competition wins, demographic information, and how well the contestants fared in the game. The purpose of this paper will be to analyze which factors contribute to a houseguest being a good Big Brother player, making it far in the game, and ultimately becoming a winner. I will also be taking a look at some commonly-held beliefs by fans, such as the "First to Enter Curse" and that being the first HOH puts a player on the path to success.
+
+### Looking at Past Winners
