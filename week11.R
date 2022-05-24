@@ -123,3 +123,50 @@ table(wine$Cultivar, wineK3N25$cluster)
 plot(table(wine$Cultivar, wineK3N25$cluster), 
      main="Confusion Matrix for Wine Clustering", 
      xlab="Cultivar", ylab="Cluster")
+
+
+**Binary Classifier K-Means Clustering**
+  
+  ```{r}
+binaryK3 <- kmeans(x=binary_df, centers=3)
+binaryK5 <- kmeans(x=binary_df, centers=5)
+binaryK10 <- kmeans(x=binary_df, centers=10)
+binaryK15 <- kmeans(x=binary_df, centers=15)
+binaryK20 <- kmeans(x=binary_df, centers=20)
+binaryK25 <- kmeans(x=binary_df, centers=25)
+
+binaryX <- c(3, 5, 10, 15, 20, 25)
+binaryY <- c(binaryK3$tot.withinss,
+             binaryK5$tot.withinss,
+             binaryK10$tot.withinss,
+             binaryK15$tot.withinss,
+             binaryK20$tot.withinss,
+             binaryK25$tot.withinss)
+
+binaryKWSS <- data.frame(binaryX, binaryY)
+
+ggplot(binaryKWSS, aes(x=binaryX, y=binaryY)) + geom_line() + xlab("Number of Clusters (K)") + ylab("Total WSS")
+```
+
+**Trinary Classifier K-Means Clustering**
+  
+  ```{r}
+trinaryK3 <- kmeans(x=trinary_df, centers=3)
+trinaryK5 <- kmeans(x=trinary_df, centers=5)
+trinaryK10 <- kmeans(x=trinary_df, centers=10)
+trinaryK15 <- kmeans(x=trinary_df, centers=15)
+trinaryK20 <- kmeans(x=trinary_df, centers=20)
+trinaryK25 <- kmeans(x=trinary_df, centers=25)
+
+trinaryX <- c(3, 5, 10, 15, 20, 25)
+trinaryY <- c(trinaryK3$tot.withinss,
+              trinaryK5$tot.withinss,
+              trinaryK10$tot.withinss,
+              trinaryK15$tot.withinss,
+              trinaryK20$tot.withinss,
+              trinaryK25$tot.withinss)
+
+trinaryKWSS <- data.frame(trinaryX, trinaryY)
+
+ggplot(trinaryKWSS, aes(x=trinaryX, y=trinaryY)) + geom_line() + xlab("Number of Clusters (K)") + ylab("Total WSS")
+```
