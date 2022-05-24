@@ -199,7 +199,19 @@ regardless.
 ### Slicing & Dicing Data
 
 I have created a number of new variables while putting together this
-final data set. I created a true/false variable denoting whether a
+final data set. 
+
+```{r}
+houseguests_df$poc <- contestant_data$race_ethnicity != "white"
+
+houseguests_df$jurymember <- contestant_data$made_jury == "yes" | contestant_data$made_jury == "final"
+
+houseguests_df$final2 <- contestant_data$made_jury == "final"
+houseguests_df$runnerup <- contestant_data$final_placement == 2
+houseguests_df$winner <- contestant_data$final_placement == 1
+```
+
+I created a true/false variable denoting whether a
 player is a person of color by analyzing the text in the ethnicity
 variable. I also created boolean variables indicating whether a player
 won the game or was a runner-up. I converted the first_in_house and
@@ -215,6 +227,10 @@ I also removed the season 1 data from houseguest_df as it is missing
 many crucial pieces of information (due to the show being filmed in a
 very different way) and does not provide information relevant to the
 questions I am asking.
+
+```{r}
+houseguests_df <- subset(houseguests_df, season_code !="bbus1")
+```
 
 When I begin to analyze success factors, I will have to take into
 account that certain things did not come into play until later seasons.

@@ -24,7 +24,7 @@ Rmd file:
 
 ```{r}
 setwd("/Users/alissa/Documents/Grad/DSC 520/dsc520")
-library(foreign)
+library(foreign); library(caTools)
 thoracicSurgery <- read.arff("data/ThoracicSurgery.arff")
 ```
 

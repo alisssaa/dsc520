@@ -1,0 +1,19 @@
+---
+title: "Exercise 11"
+author: "Alissa Trujillo"
+date: '2022-05-24'
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/alissa/Documents/Grad/DSC 520/dsc520")
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 58), tidy = TRUE)
+```
+
+# Exercise 11
+
+Rmd file:
+<https://github.com/alisssaa/dsc520/blob/master/completed/Exercise10/Exercise10.Rmd>
