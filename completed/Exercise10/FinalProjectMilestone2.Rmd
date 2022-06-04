@@ -74,6 +74,7 @@ houseguests_df$gender <- contestant_data$gender
 houseguests_df$ethnicity <- contestant_data$race_ethnicity
 houseguests_df$poc <- contestant_data$race_ethnicity != "white"
 houseguests_df$season_diversity <- additional_data$season_diversity
+houseguests_df$lgbt <- contestant_data$lgbts
 houseguests_df$appearance <- contestant_data$appearance
 houseguests_df$first_in_house <- as.logical(additional_data$first_in_house)
 houseguests_df$comps <- contestant_data$total_wins
